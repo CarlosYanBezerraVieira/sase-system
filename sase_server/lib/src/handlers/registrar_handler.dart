@@ -10,7 +10,11 @@ import 'package:sase_server/src/handlers/action_handler.dart';
 /// {"acao": "registrar", "tipo_cliente": "TS|TA|TV"}
 /// ```
 class RegistrarHandler extends ActionHandler {
-  RegistrarHandler({required super.clienteManager, required super.logger});
+  RegistrarHandler({
+    required super.clienteManager,
+    required super.logger,
+    required super.filaManager,
+  });
 
   @override
   void handle(Socket socket, Map<String, dynamic> mensagem, String enderecoRemoto) {

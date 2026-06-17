@@ -9,3 +9,4 @@ library sase_server;
 export 'src/sase_server.dart';
 export 'src/cliente_manager.dart';
 export 'src/logger_service.dart';
+export 'src/fila_manager.dart';

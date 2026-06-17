@@ -14,12 +14,14 @@ void main() async {
 
   final clienteManager = ClienteManager();
   final logger = LoggerService();
+  final filaManager = FilaManager();
 
   final server = SaseServer(
     host: host,
     port: port,
     clienteManager: clienteManager,
     logger: logger,
+    filaManager: filaManager,
   );
 
   // Trata o sinal de interrupção (Ctrl+C) para encerrar graciosamente.

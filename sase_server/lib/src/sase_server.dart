@@ -2,7 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:sase_server/src/cliente_manager.dart';
+import 'package:sase_server/src/fila_manager.dart';
 import 'package:sase_server/src/handlers/action_handler.dart';
+import 'package:sase_server/src/handlers/chamar_proxima_handler.dart';
+import 'package:sase_server/src/handlers/nova_senha_handler.dart';
 import 'package:sase_server/src/handlers/registrar_handler.dart';
 import 'package:sase_server/src/logger_service.dart';
 
@@ -18,6 +21,7 @@ class SaseServer {
   final int port;
   final ClienteManager clienteManager;
   final LoggerService logger;
+  final FilaManager filaManager;
 
   late final Map<String, ActionHandler> _handlers;
 
@@ -28,11 +32,24 @@ class SaseServer {
     required this.port,
     required this.clienteManager,
     required this.logger,
+    required this.filaManager,
   }) {
     _handlers = {
-      'registrar': RegistrarHandler(clienteManager: clienteManager, logger: logger),
-      // Novas ações serão registradas aqui:
-      // 'nova_senha': NovaSenhaHandler(...),
+      'registrar': RegistrarHandler(
+        clienteManager: clienteManager,
+        logger: logger,
+        filaManager: filaManager,
+      ),
+      'nova_senha': NovaSenhaHandler(
+        clienteManager: clienteManager,
+        logger: logger,
+        filaManager: filaManager,
+      ),
+      'chamar_proxima': ChamarProximaHandler(
+        clienteManager: clienteManager,
+        logger: logger,
+        filaManager: filaManager,
+      ),
     };
   }
 
