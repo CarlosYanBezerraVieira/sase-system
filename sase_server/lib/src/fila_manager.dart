@@ -1,3 +1,5 @@
+import 'package:sase_server/src/enums/sase_enums.dart';
+
 /// Gerencia o estado interno das filas de senhas.
 ///
 /// Mantém as filas Normal ("N") e Prioritária ("P") e aplica
@@ -15,9 +17,9 @@ class FilaManager {
   /// Adiciona uma nova senha à fila correspondente.
   ///
   /// [senha] - Ex: "N1", "P1".
-  /// [tipo] - "N" para Normal, "P" para Prioritária.
-  void adicionarSenha(String senha, String tipo) {
-    if (tipo == 'P') {
+  /// [tipo] - Enum que define se é Normal ou Prioritária.
+  void adicionarSenha(String senha, TipoSenha tipo) {
+    if (tipo == TipoSenha.prioritaria) {
       _filaPrioritaria.add(senha);
     } else {
       _filaNormal.add(senha);

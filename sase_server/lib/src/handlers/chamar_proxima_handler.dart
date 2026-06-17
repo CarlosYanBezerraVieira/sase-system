@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:sase_server/src/enums/sase_enums.dart';
 import 'package:sase_server/src/handlers/action_handler.dart';
 
 /// Manipulador para a ação "chamar_proxima".
@@ -38,24 +39,23 @@ class ChamarProximaHandler extends ActionHandler {
 
     if (proximaSenha == null) {
       // Filas vazias
-      final payload = jsonEncode({'acao': 'fila_vazia'});
+      final payload = jsonEncode({'acao': AcaoSase.filaVazia.comando});
       socket.writeln(payload);
       print('[FILA] Mesa $mesa tentou chamar, mas as filas estão vazias.');
     } else {
       // Retorna para o TA
       final payloadTa = jsonEncode({
-        'acao': 'sua_vez',
+        'acao': AcaoSase.suaVez.comando,
         'senha': proximaSenha,
       });
       socket.writeln(payloadTa);
 
       // Broadcast para as TVs
       final payloadTv = jsonEncode({
-        'acao': 'atualizar_painel',
+        'acao': AcaoSase.atualizarPainel.comando,
         'senha': proximaSenha,
         'mesa': mesa,
       });
-
       final tVs = clienteManager.terminaisVisualizacao;
       for (final tvSocket in tVs) {
         try {
@@ -71,7 +71,7 @@ class ChamarProximaHandler extends ActionHandler {
       // Registra auditoria (timestamp exato do envio)
       logger.registrar(
         modulo: 'SRV',
-        acao: 'chamar_proxima',
+        acao: AcaoSase.chamarProxima.comando,
         dados: {
           'mesa': mesa,
           'senha_entregue': proximaSenha,

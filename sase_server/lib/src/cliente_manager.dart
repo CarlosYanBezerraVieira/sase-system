@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:sase_server/src/enums/sase_enums.dart';
+
 /// Gerencia as conexões de clientes TCP classificadas por tipo.
 ///
 /// Mantém listas separadas de Sockets para cada tipo de terminal:
@@ -20,22 +22,17 @@ class ClienteManager {
   final List<Socket> _terminaisVisualizacao = [];
 
   /// Registra um socket na lista correspondente ao [tipoCliente].
-  ///
-  /// Retorna `true` se o tipo é válido e o registro foi feito,
-  /// `false` caso contrário.
-  bool registrar(Socket socket, String tipoCliente) {
+  void registrar(Socket socket, TipoCliente tipoCliente) {
     switch (tipoCliente) {
-      case 'TS':
+      case TipoCliente.ts:
         _terminaisSenha.add(socket);
-        return true;
-      case 'TA':
+        break;
+      case TipoCliente.ta:
         _terminaisAtendimento.add(socket);
-        return true;
-      case 'TV':
+        break;
+      case TipoCliente.tv:
         _terminaisVisualizacao.add(socket);
-        return true;
-      default:
-        return false;
+        break;
     }
   }
 

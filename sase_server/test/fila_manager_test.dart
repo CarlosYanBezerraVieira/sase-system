@@ -1,4 +1,5 @@
 import 'package:test/test.dart';
+import 'package:sase_server/src/enums/sase_enums.dart';
 import 'package:sase_server/src/fila_manager.dart';
 
 void main() {
@@ -11,16 +12,16 @@ void main() {
 
     test('Deve chamar na ordem N, N, P quando ambas as filas têm senhas suficientes', () {
       // Adiciona 5 senhas normais
-      filaManager.adicionarSenha('N1', 'N');
-      filaManager.adicionarSenha('N2', 'N');
-      filaManager.adicionarSenha('N3', 'N');
-      filaManager.adicionarSenha('N4', 'N');
-      filaManager.adicionarSenha('N5', 'N');
+      filaManager.adicionarSenha('N1', TipoSenha.normal);
+      filaManager.adicionarSenha('N2', TipoSenha.normal);
+      filaManager.adicionarSenha('N3', TipoSenha.normal);
+      filaManager.adicionarSenha('N4', TipoSenha.normal);
+      filaManager.adicionarSenha('N5', TipoSenha.normal);
 
       // Adiciona 3 senhas prioritárias
-      filaManager.adicionarSenha('P1', 'P');
-      filaManager.adicionarSenha('P2', 'P');
-      filaManager.adicionarSenha('P3', 'P');
+      filaManager.adicionarSenha('P1', TipoSenha.prioritaria);
+      filaManager.adicionarSenha('P2', TipoSenha.prioritaria);
+      filaManager.adicionarSenha('P3', TipoSenha.prioritaria);
 
       // Chamada 1: Normal
       expect(filaManager.chamarProxima(), equals('N1'));
@@ -46,8 +47,8 @@ void main() {
     });
 
     test('Prioritárias vão primeiro se a fila normal estiver vazia', () {
-      filaManager.adicionarSenha('P1', 'P');
-      filaManager.adicionarSenha('P2', 'P');
+      filaManager.adicionarSenha('P1', TipoSenha.prioritaria);
+      filaManager.adicionarSenha('P2', TipoSenha.prioritaria);
 
       expect(filaManager.chamarProxima(), equals('P1'));
       expect(filaManager.chamarProxima(), equals('P2'));
@@ -55,9 +56,9 @@ void main() {
     });
 
     test('Normais vão sendo chamadas se não há prioritária', () {
-      filaManager.adicionarSenha('N1', 'N');
-      filaManager.adicionarSenha('N2', 'N');
-      filaManager.adicionarSenha('N3', 'N');
+      filaManager.adicionarSenha('N1', TipoSenha.normal);
+      filaManager.adicionarSenha('N2', TipoSenha.normal);
+      filaManager.adicionarSenha('N3', TipoSenha.normal);
 
       expect(filaManager.chamarProxima(), equals('N1'));
       expect(filaManager.chamarProxima(), equals('N2'));

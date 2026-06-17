@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:sase_server/src/enums/sase_enums.dart';
 import 'package:sase_server/src/handlers/action_handler.dart';
 
 /// Manipulador para a ação "registrar".
@@ -18,30 +19,31 @@ class RegistrarHandler extends ActionHandler {
 
   @override
   void handle(Socket socket, Map<String, dynamic> mensagem, String enderecoRemoto) {
-    final tipoCliente = mensagem['tipo_cliente'] as String?;
+    final tipoClienteRaw = mensagem['tipo_cliente'] as String?;
 
-    if (tipoCliente == null) {
+    if (tipoClienteRaw == null) {
       print('[AVISO] Handshake sem "tipo_cliente" de $enderecoRemoto');
       return;
     }
 
-    final registrado = clienteManager.registrar(socket, tipoCliente);
+    final tipoCliente = TipoCliente.fromSigla(tipoClienteRaw);
 
-    if (registrado) {
-      print('[REGISTRO] $enderecoRemoto registrado como $tipoCliente');
+    if (tipoCliente != null) {
+      clienteManager.registrar(socket, tipoCliente);
+      print('[REGISTRO] $enderecoRemoto registrado como ${tipoCliente.sigla}');
       print('[STATUS] Conexões ativas — ${clienteManager.resumo}');
 
       logger.registrar(
         modulo: 'SRV',
-        acao: 'cliente_registrado',
+        acao: AcaoSase.registrar.comando,
         dados: {
-          'tipo_cliente': tipoCliente,
+          'tipo_cliente': tipoCliente.sigla,
           'endereco': enderecoRemoto,
           'status': 'sucesso',
         },
       );
     } else {
-      print('[AVISO] tipo_cliente inválido "$tipoCliente" de $enderecoRemoto');
+      print('[AVISO] tipo_cliente inválido "$tipoClienteRaw" de $enderecoRemoto');
     }
   }
 }

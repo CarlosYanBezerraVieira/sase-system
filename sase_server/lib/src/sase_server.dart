@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:sase_server/src/cliente_manager.dart';
+import 'package:sase_server/src/enums/sase_enums.dart';
 import 'package:sase_server/src/fila_manager.dart';
 import 'package:sase_server/src/handlers/action_handler.dart';
 import 'package:sase_server/src/handlers/chamar_proxima_handler.dart';
@@ -35,17 +36,17 @@ class SaseServer {
     required this.filaManager,
   }) {
     _handlers = {
-      'registrar': RegistrarHandler(
+      AcaoSase.registrar.comando: RegistrarHandler(
         clienteManager: clienteManager,
         logger: logger,
         filaManager: filaManager,
       ),
-      'nova_senha': NovaSenhaHandler(
+      AcaoSase.novaSenha.comando: NovaSenhaHandler(
         clienteManager: clienteManager,
         logger: logger,
         filaManager: filaManager,
       ),
-      'chamar_proxima': ChamarProximaHandler(
+      AcaoSase.chamarProxima.comando: ChamarProximaHandler(
         clienteManager: clienteManager,
         logger: logger,
         filaManager: filaManager,
