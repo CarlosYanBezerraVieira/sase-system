@@ -10,5 +10,6 @@ class AppConstants {
   static const String routeHome = '/';
   static const String routeTs = '/ts';
   static const String routeTa = '/ta';
+  static const String routeTaAtendimento = '/ta/atendimento';
   static const String routeTv = '/tv';
 }

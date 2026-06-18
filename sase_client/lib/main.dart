@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sase_client/core/constants/app_constants.dart';
 import 'package:sase_client/core/di/dependency_injection.dart';
+import 'package:sase_client/modules/ta/ta_binding.dart';
+import 'package:sase_client/modules/ta/ta_config_view.dart';
+import 'package:sase_client/modules/ta/ta_view.dart';
 import 'package:sase_client/modules/ts/ts_binding.dart';
 import 'package:sase_client/modules/ts/ts_view.dart';
 
@@ -44,6 +47,16 @@ class SaseClientApp extends StatelessWidget {
           name: AppConstants.routeTs,
           page: () => const TsView(),
           binding: TsBinding(),
+        ),
+        GetPage(
+          name: AppConstants.routeTa,
+          page: () => const TaConfigView(),
+          binding: TaBinding(),
+        ),
+        GetPage(
+          name: AppConstants.routeTaAtendimento,
+          page: () => const TaView(),
+          binding: TaBinding(),
         ),
       ],
     );
