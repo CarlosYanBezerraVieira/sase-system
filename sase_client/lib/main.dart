@@ -1,0 +1,41 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sase_client/core/constants/app_constants.dart';
+import 'package:sase_client/core/di/dependency_injection.dart';
+
+void main() {
+  // Inicializa o binding do Flutter antes de injeções nativas
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Configura Injeção de Dependências global
+  DependencyInjection.init();
+
+  runApp(const SaseClientApp());
+}
+
+class SaseClientApp extends StatelessWidget {
+  const SaseClientApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      title: 'SASE Client',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        useMaterial3: true,
+      ),
+      initialRoute: AppConstants.routeHome,
+      getPages: [
+        GetPage(
+          name: AppConstants.routeHome,
+          page: () => const Scaffold(
+            body: Center(
+              child: Text('SASE Home - Roteamento em breve'),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
