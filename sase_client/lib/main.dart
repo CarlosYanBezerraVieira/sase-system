@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sase_client/core/constants/app_constants.dart';
 import 'package:sase_client/core/di/dependency_injection.dart';
+import 'package:sase_client/modules/ts/ts_binding.dart';
+import 'package:sase_client/modules/ts/ts_view.dart';
 
 void main() {
   // Inicializa o binding do Flutter antes de injeções nativas
@@ -29,11 +31,19 @@ class SaseClientApp extends StatelessWidget {
       getPages: [
         GetPage(
           name: AppConstants.routeHome,
-          page: () => const Scaffold(
+          page: () => Scaffold(
             body: Center(
-              child: Text('SASE Home - Roteamento em breve'),
+              child: ElevatedButton(
+                onPressed: () => Get.toNamed(AppConstants.routeTs),
+                child: const Text('Abrir Terminal de Senhas (TS)'),
+              ),
             ),
           ),
+        ),
+        GetPage(
+          name: AppConstants.routeTs,
+          page: () => const TsView(),
+          binding: TsBinding(),
         ),
       ],
     );

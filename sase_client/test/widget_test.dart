@@ -15,6 +15,6 @@ void main() {
     await tester.pumpWidget(const SaseClientApp());
 
     // Verify that our app starts at the new Home
-    expect(find.text('SASE Home - Roteamento em breve'), findsOneWidget);
+    expect(find.text('Abrir Terminal de Senhas (TS)'), findsOneWidget);
   });
 }
