@@ -7,6 +7,8 @@ import 'package:sase_client/modules/ta/ta_config_view.dart';
 import 'package:sase_client/modules/ta/ta_view.dart';
 import 'package:sase_client/modules/ts/ts_binding.dart';
 import 'package:sase_client/modules/ts/ts_view.dart';
+import 'package:sase_client/modules/tv/tv_binding.dart';
+import 'package:sase_client/modules/tv/tv_view.dart';
 
 void main() {
   // Inicializa o binding do Flutter antes de injeções nativas
@@ -36,9 +38,24 @@ class SaseClientApp extends StatelessWidget {
           name: AppConstants.routeHome,
           page: () => Scaffold(
             body: Center(
-              child: ElevatedButton(
-                onPressed: () => Get.toNamed(AppConstants.routeTs),
-                child: const Text('Abrir Terminal de Senhas (TS)'),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => Get.toNamed(AppConstants.routeTs),
+                    child: const Text('Abrir Terminal de Senhas (TS)'),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () => Get.toNamed(AppConstants.routeTa),
+                    child: const Text('Abrir Terminal de Atendimento (TA)'),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () => Get.toNamed(AppConstants.routeTv),
+                    child: const Text('Abrir Painel de TV (TV)'),
+                  ),
+                ],
               ),
             ),
           ),
@@ -57,6 +74,11 @@ class SaseClientApp extends StatelessWidget {
           name: AppConstants.routeTaAtendimento,
           page: () => const TaView(),
           binding: TaBinding(),
+        ),
+        GetPage(
+          name: AppConstants.routeTv,
+          page: () => const TvView(),
+          binding: TvBinding(),
         ),
       ],
     );
