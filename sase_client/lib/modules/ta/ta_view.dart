@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sase_client/core/ui/widgets/sase_button.dart';
-import 'package:sase_client/core/ui/widgets/sase_fila_vazia_widget.dart';
 import 'package:sase_client/core/ui/widgets/sase_header.dart';
-import 'package:sase_client/core/ui/widgets/sase_senha_display.dart';
 import 'package:sase_client/modules/ta/ta_controller.dart';
+import 'package:sase_client/modules/ta/widgets/ta_painel_central.dart';
 
 /// Tela principal do Terminal de Atendimento (TA).
 ///
@@ -27,19 +26,15 @@ class TaView extends GetView<TaController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Painel central — alterna entre senha, aguardando ou fila vazia.
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 400),
                   transitionBuilder: (child, animation) => FadeTransition(
                     opacity: animation,
                     child: ScaleTransition(scale: animation, child: child),
                   ),
-                  child: _buildPainelCentral(),
+                  child: const TaPainelCentral(),
                 ),
-
                 const SizedBox(height: 64),
-
-                // Botão de chamar sempre visível.
                 SizedBox(
                   width: 480,
                   height: 140,
@@ -56,31 +51,5 @@ class TaView extends GetView<TaController> {
         ),
       );
     });
-  }
-
-  Widget _buildPainelCentral() {
-    switch (controller.estado.value) {
-      case EstadoTa.atendendo:
-        final senha = controller.senhaAtual.value;
-        // Define cor baseada no tipo de senha (P = laranja, N = azul)
-        final isPrioritaria = senha.startsWith('P');
-        return SaseSenhaDisplay(
-          key: ValueKey(senha),
-          senha: senha,
-          subtitulo: isPrioritaria ? 'Atendimento Prioritário' : 'Atendimento Normal',
-          corDestaque: isPrioritaria ? Colors.orange[800]! : Colors.blue[700]!,
-        );
-
-      case EstadoTa.filaVazia:
-        return const SaseFilaVaziaWidget(key: ValueKey('fila_vazia'));
-
-      case EstadoTa.aguardando:
-        return SaseSenhaDisplay(
-          key: const ValueKey('aguardando'),
-          senha: '---',
-          subtitulo: 'Aguardando',
-          corDestaque: Colors.grey[500]!,
-        );
-    }
   }
 }

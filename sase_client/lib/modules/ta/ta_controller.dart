@@ -25,6 +25,8 @@ class TaController extends GetxController {
   // Senha atualmente sendo atendida.
   final RxString senhaAtual = '---'.obs;
 
+  bool get isPrioritaria => senhaAtual.startsWith('P');
+
   /// Salva o número do guichê e inicia a conexão com o servidor.
   Future<void> configurarEConectar(int mesa) async {
     numeroMesa.value = mesa;

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sase_client/core/constants/app_constants.dart';
+import 'package:sase_client/core/ui/widgets/sase_form_action_button.dart';
+import 'package:sase_client/core/ui/widgets/sase_form_text_field.dart';
 import 'package:sase_client/modules/ta/ta_controller.dart';
 
 /// Tela de configuração inicial do Terminal de Atendimento.
@@ -65,29 +67,10 @@ class TaConfigView extends GetView<TaController> {
                     ),
                     const SizedBox(height: 40),
 
-                    // Campo de número do guichê
-                    TextFormField(
+                    SaseFormTextField(
                       controller: mesaController,
-                      keyboardType: TextInputType.number,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'Número do Guichê',
-                        hintText: '1',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          borderSide: BorderSide(
-                            color: Colors.blue[700]!,
-                            width: 2,
-                          ),
-                        ),
-                      ),
+                      labelText: 'Número do Guichê',
+                      hintText: '1',
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Por favor, informe o número do guichê.';
@@ -98,36 +81,31 @@ class TaConfigView extends GetView<TaController> {
                         }
                         return null;
                       },
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      accentColor: Colors.blue[700]!,
                     ),
                     const SizedBox(height: 32),
 
                     // Botão Confirmar
-                    SizedBox(
-                      width: double.infinity,
-                      child: FilledButton.icon(
-                        onPressed: () async {
-                          if (formKey.currentState!.validate()) {
-                            final mesa = int.parse(mesaController.text);
-                            await controller.configurarEConectar(mesa);
-                            Get.toNamed(AppConstants.routeTaAtendimento);
-                          }
-                        },
-                        icon: const Icon(Icons.login),
-                        label: const Text(
-                          'CONFIRMAR E CONECTAR',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.2,
-                          ),
-                        ),
-                        style: FilledButton.styleFrom(
-                          backgroundColor: Colors.blue[700],
-                          padding: const EdgeInsets.symmetric(vertical: 18),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                      ),
+                    SaseFormActionButton(
+                      label: 'CONFIRMAR E CONECTAR',
+                      icon: Icons.login,
+                      backgroundColor: Colors.blue[700]!,
+                      onPressed: () async {
+                        if (formKey.currentState!.validate()) {
+                          final mesa = int.parse(mesaController.text);
+                          await controller.configurarEConectar(mesa);
+                          Get.toNamed(AppConstants.routeTaAtendimento);
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    SaseFormActionButton(
+                      label: 'VOLTAR',
+                      icon: Icons.arrow_back,
+                      backgroundColor: Colors.blueGrey[700]!,
+                      onPressed: () => Get.back(),
                     ),
                   ],
                 ),
