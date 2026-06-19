@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sase_client/core/enums/sase_enums.dart';
 import 'package:sase_client/core/services/socket_service.dart';
+import 'package:sase_client/core/ui/utils/sase_feedback_utils.dart';
 
 /// Controlador do Terminal de Senhas (TS).
 ///
@@ -28,7 +29,9 @@ class TsController extends GetxController {
   /// Solicita uma nova senha com base no [TipoSenha] escolhido pelo usuário.
   void solicitarSenha(TipoSenha tipo) {
     if (!_socketService.isConnected.value) {
-      _mostrarErro(
+      SaseFeedbackUtils.showError(
+          title: 'Atenção',
+          message:
           'Sem conexão com o servidor. Por favor, aguarde ou chame o suporte.');
       return;
     }
@@ -51,40 +54,14 @@ class TsController extends GetxController {
     });
 
     // Feedback visual de sucesso na tela do TS
-    _mostrarSucesso(senhaGerada, tipo);
-  }
-
-  /// Exibe um Snackbar amigável informando que a senha foi emitida.
-  void _mostrarSucesso(String senha, TipoSenha tipo) {
     final cor = tipo == TipoSenha.normal ? Colors.blue : Colors.orange;
     final titulo = tipo == TipoSenha.normal ? 'Normal' : 'Prioritária';
 
-    Get.snackbar(
-      'Senha Emitida',
-      'Sua senha $titulo é $senha.\nAguarde ser chamado no painel.',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: cor.withValues(alpha: 0.9),
-      colorText: Colors.white,
-      margin: const EdgeInsets.all(24),
-      padding: const EdgeInsets.all(24),
-      borderRadius: 16,
-      icon: const Icon(Icons.print, color: Colors.white, size: 40),
-      duration: const Duration(seconds: 4),
-      isDismissible: true,
-      forwardAnimationCurve: Curves.easeOutBack,
-    );
-  }
-
-  /// Exibe um Snackbar de erro em caso de falha de conexão.
-  void _mostrarErro(String mensagem) {
-    Get.snackbar(
-      'Atenção',
-      mensagem,
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.redAccent,
-      colorText: Colors.white,
-      margin: const EdgeInsets.all(24),
-      icon: const Icon(Icons.error_outline, color: Colors.white),
+    SaseFeedbackUtils.showSuccess(
+      title: 'Senha Emitida',
+      message: 'Sua senha $titulo é $senhaGerada.\nAguarde ser chamado no painel.',
+      color: cor,
+      icon: Icons.print,
     );
   }
 }
