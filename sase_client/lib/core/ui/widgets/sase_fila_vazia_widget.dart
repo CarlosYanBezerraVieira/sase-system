@@ -44,7 +44,7 @@ class _SaseFilaVaziaWidgetState extends State<SaseFilaVaziaWidget>
         border: Border.all(color: Colors.amber[300]!, width: 2),
         boxShadow: [
           BoxShadow(
-            color: Colors.amber.withOpacity(0.15),
+            color: Colors.amber.withValues(alpha: 0.15),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),

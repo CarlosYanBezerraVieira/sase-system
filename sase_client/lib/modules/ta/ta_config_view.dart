@@ -21,7 +21,7 @@ class TaConfigView extends GetView<TaController> {
           constraints: const BoxConstraints(maxWidth: 480),
           child: Card(
             elevation: 8,
-            shadowColor: Colors.blue.withOpacity(0.2),
+            shadowColor: Colors.blue.withValues(alpha: 0.2),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(24),
             ),

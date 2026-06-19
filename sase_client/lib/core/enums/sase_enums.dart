@@ -2,7 +2,7 @@
 ///
 /// Estes enums espelham os do sase_server e garantem que o cliente
 /// nunca use strings mágicas ao montar ou parsear payloads JSON.
-library sase_enums;
+library;
 
 /// Define os tipos de senhas disponíveis no sistema.
 enum TipoSenha {

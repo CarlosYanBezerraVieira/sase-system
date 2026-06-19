@@ -63,7 +63,7 @@ class TsController extends GetxController {
       'Senha Emitida',
       'Sua senha $titulo é $senha.\nAguarde ser chamado no painel.',
       snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: cor.withOpacity(0.9),
+      backgroundColor: cor.withValues(alpha: 0.9),
       colorText: Colors.white,
       margin: const EdgeInsets.all(24),
       padding: const EdgeInsets.all(24),

@@ -25,12 +25,15 @@ class SaseSenhaDisplay extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: corDestaque.withOpacity(0.15),
+            color: corDestaque.withValues(alpha: 0.15),
             blurRadius: 30,
             offset: const Offset(0, 12),
           ),
         ],
-        border: Border.all(color: corDestaque.withOpacity(0.3), width: 2),
+        border: Border.all(
+          color: corDestaque.withValues(alpha: 0.3),
+          width: 2,
+        ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -40,7 +43,7 @@ class SaseSenhaDisplay extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: corDestaque.withOpacity(0.7),
+              color: corDestaque.withValues(alpha: 0.7),
               letterSpacing: 3.0,
             ),
           ),

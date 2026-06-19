@@ -118,7 +118,7 @@ class TvView extends GetView<TvController> {
                       return ListView.separated(
                         itemCount: historico.length,
                         padding: const EdgeInsets.all(24),
-                        separatorBuilder: (_, __) => const Divider(color: Colors.white24, height: 32),
+                        separatorBuilder: (_, _) => const Divider(color: Colors.white24, height: 32),
                         itemBuilder: (context, index) {
                           final item = historico[index];
                           final isPrioritaria = item.senha.startsWith('P');
