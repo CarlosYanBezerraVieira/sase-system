@@ -26,7 +26,7 @@ class SaseButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: color.withValues(alpha: 0.4),
+            color: color.withAlpha(102),
             blurRadius: 16,
             offset: const Offset(0, 8),
           ),
@@ -37,30 +37,29 @@ class SaseButton extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(24),
           onTap: onTap,
-          splashColor: Colors.white.withValues(alpha: 0.3),
-          highlightColor: Colors.white.withValues(alpha: 0.1),
+          splashColor: Colors.white.withAlpha(76),
+          highlightColor: Colors.white.withAlpha(25),
           child: Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  icon,
-                  size: 100,
-                  color: Colors.white,
-                ),
-                const SizedBox(height: 24),
-                Text(
-                  label.toUpperCase(),
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: 2.0,
+            padding: const EdgeInsets.all(16.0),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(icon, size: 80, color: Colors.white),
+                  const SizedBox(height: 12),
+                  Text(
+                    label.toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      letterSpacing: 1.5,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
