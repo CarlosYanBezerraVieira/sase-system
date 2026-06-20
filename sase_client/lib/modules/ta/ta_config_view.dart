@@ -15,6 +15,7 @@ class TaConfigView extends GetView<TaController> {
   Widget build(BuildContext context) {
     final TextEditingController mesaController = TextEditingController();
     final formKey = GlobalKey<FormState>();
+    final isTextAlignCenter = MediaQuery.sizeOf(context).width < 900;
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -48,8 +49,9 @@ class TaConfigView extends GetView<TaController> {
                       ),
                     ),
                     const SizedBox(height: 32),
-                    const Text(
+                    Text(
                       'Terminal de Atendimento',
+                      textAlign: isTextAlignCenter ? TextAlign.center : null,
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -60,10 +62,7 @@ class TaConfigView extends GetView<TaController> {
                     Text(
                       'Informe o número deste guichê para iniciar.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.grey[600],
-                      ),
+                      style: TextStyle(fontSize: 15, color: Colors.grey[600]),
                     ),
                     const SizedBox(height: 40),
 

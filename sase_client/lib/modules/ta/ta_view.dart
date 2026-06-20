@@ -14,6 +14,7 @@ class TaView extends GetView<TaController> {
 
   @override
   Widget build(BuildContext context) {
+    final tamanhoTela = MediaQuery.sizeOf(context);
     return Obx(() {
       final titulo = 'Guichê N° ${controller.numeroMesa.value}';
 
@@ -36,8 +37,8 @@ class TaView extends GetView<TaController> {
                 ),
                 const SizedBox(height: 64),
                 SizedBox(
-                  width: 480,
-                  height: 140,
+                  width: tamanhoTela.width * 0.8,
+                  height: tamanhoTela.height * 0.15,
                   child: SaseButton(
                     label: 'Chamar Próxima',
                     icon: Icons.notifications_active,
