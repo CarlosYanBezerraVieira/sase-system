@@ -15,18 +15,22 @@ class TvHistoricoPainel extends GetView<TvController> {
         children: [
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 24),
+            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
             color: Colors.black26,
-            child: const Text(
-              'ÚLTIMAS CHAMADAS',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+            child: const FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                'ÚLTIMAS CHAMADAS',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
+
           Expanded(
             child: Obx(() {
               final historico = controller.historico;
@@ -43,10 +47,12 @@ class TvHistoricoPainel extends GetView<TvController> {
                 itemCount: historico.length,
                 padding: const EdgeInsets.all(24),
                 separatorBuilder: (_, _) =>
-                    const Divider(color: Colors.white24, height: 32),
+                    const Divider(color: Colors.white24, height: 24),
                 itemBuilder: (context, index) {
-                  return TvHistoricoItem(item: historico[index],
-                  isPrioritaria: controller.getIsPrioritariaByIndex(index),);
+                  return TvHistoricoItem(
+                    item: historico[index],
+                    isPrioritaria: controller.getIsPrioritariaByIndex(index),
+                  );
                 },
               );
             }),

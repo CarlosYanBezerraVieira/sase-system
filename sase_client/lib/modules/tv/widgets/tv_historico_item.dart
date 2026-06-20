@@ -19,30 +19,53 @@ class TvHistoricoItem extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          item.senha,
-          style: TextStyle(
-            color: color,
-            fontSize: 48,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            const Text(
-              'GUICHÊ',
-              style: TextStyle(color: Colors.white54, fontSize: 16),
-            ),
-            Text(
-              '${item.mesa}',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 36,
+        Expanded(
+          flex: 3,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              item.senha,
+              style: TextStyle(
+                color: color,
+                fontSize:
+                    44, 
                 fontWeight: FontWeight.bold,
               ),
             ),
-          ],
+          ),
+        ),
+
+        const SizedBox(width: 16),
+
+        Expanded(
+          flex: 2, 
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment
+                .centerRight,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                const Text(
+                  'GUICHÊ',
+                  style: TextStyle(
+                    color: Colors.white54,
+                    fontSize: 14,
+                    letterSpacing: 1,
+                  ),
+                ),
+                Text(
+                  '${item.mesa}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ],
     );

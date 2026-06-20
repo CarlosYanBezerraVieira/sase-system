@@ -13,13 +13,19 @@ class TvPainelAtual extends GetView<TvController> {
       child: Obx(() {
         final atual = controller.ultimaChamada.value;
         if (atual == null) {
-          return const Text(
-            'AGUARDANDO CHAMADAS',
-            style: TextStyle(
-              color: Colors.white54,
-              fontSize: 48,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 4,
+          return const FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Padding(
+              padding: EdgeInsets.all(32.0),
+              child: Text(
+                'AGUARDANDO CHAMADAS',
+                style: TextStyle(
+                  color: Colors.white54,
+                  fontSize: 48,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 4,
+                ),
+              ),
             ),
           );
         }
@@ -36,45 +42,64 @@ class TvPainelAtual extends GetView<TvController> {
               child: FadeTransition(opacity: animation, child: child),
             );
           },
-          child: Container(
+          child: Padding(
             key: ValueKey(atual.senha),
+            padding: const EdgeInsets.all(24.0),
             child: Column(
-              mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  'SENHA',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 32,
-                    letterSpacing: 4,
+                const FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    'SENHA',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 32,
+                      letterSpacing: 4,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 16),
-                Transform.scale(
-                  scale: 1.8,
-                  child: SaseSenhaDisplay(
-                    senha: atual.senha,
-                    subtitulo: isPrioritaria ? 'PRIORIDADE' : 'NORMAL',
-                    corDestaque: isPrioritaria
-                        ? Colors.orange[600]!
-                        : Colors.blue[600]!,
+
+                const Spacer(flex: 1),
+
+                Expanded(
+                  flex: 4,
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: SaseSenhaDisplay(
+                      senha: atual.senha,
+                      subtitulo: isPrioritaria ? 'PRIORIDADE' : 'NORMAL',
+                      corDestaque: isPrioritaria
+                          ? Colors.orange[600]!
+                          : Colors.blue[600]!,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 100),
-                Text(
-                  'DIRIJA-SE AO GUICHÊ',
-                  style: TextStyle(
-                    color: Colors.yellow[400],
-                    fontSize: 36,
-                    fontWeight: FontWeight.w600,
+
+                const Spacer(flex: 2),
+
+                const FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    'DIRIJA-SE AO GUICHÊ',
+                    style: TextStyle(
+                      color: Colors.indigoAccent,
+                      fontSize: 36,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
-                Text(
-                  '${atual.mesa}',
-                  style: TextStyle(
-                    color: Colors.yellow[400],
-                    fontSize: 120,
-                    fontWeight: FontWeight.w900,
+
+                Expanded(
+                  flex: 3,
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: Text(
+                      '${atual.mesa}',
+                      style: TextStyle(
+                        color: Colors.yellow[400],
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
                   ),
                 ),
               ],
