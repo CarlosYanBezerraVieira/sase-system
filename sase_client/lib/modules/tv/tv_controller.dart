@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:sase_client/core/constants/app_constants.dart';
 import 'package:sase_client/core/enums/sase_enums.dart';
 import 'package:sase_client/core/model/sase_mensagem.dart';
 import 'package:sase_client/core/services/socket_service.dart';
@@ -44,7 +45,7 @@ class TvController extends GetxController {
   void _escutarMensagens() {
     _socketService.messages.listen((mensagem) {
       final SaseMensagem(:acao, :mesa, :senha) = mensagem;
-      
+
       if (acao == null) return;
 
       if (mensagem.acao == AcaoSase.atualizarPainel) {
@@ -74,7 +75,7 @@ class TvController extends GetxController {
 
   Future<void> _tocarCampainha() async {
     try {
-      await _audioPlayer.play(AssetSource('sounds/ding.wav'));
+      await _audioPlayer.play(AssetSource(AppConstants.song));
     } catch (e) {
       debugPrint('[ERRO AUDIO] Falha ao reproduzir som: $e');
     }

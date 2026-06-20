@@ -12,4 +12,7 @@ class AppConstants {
   static const String routeTa = '/ta';
   static const String routeTaAtendimento = '/ta/atendimento';
   static const String routeTv = '/tv';
+
+  //music
+  static const String song = "sounds/ding.wav";
 }
