@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:sase_client/core/enums/sase_enums.dart';
 import 'package:sase_client/core/model/sase_mensagem.dart';
 import 'package:sase_client/core/services/socket_service.dart';
+import 'package:sase_client/core/ui/utils/sase_feedback_utils.dart';
 
 /// Define o estado da tela do Terminal de Atendimento.
 enum EstadoTa {
@@ -61,7 +62,14 @@ class TaController extends GetxController {
 
   /// Envia o pedido de próxima senha ao servidor com o número do guichê.
   void chamarProxima() {
-    if (!_socketService.isConnected.value) return;
+    if (!_socketService.isConnected.value) {
+      SaseFeedbackUtils.showError(
+        title: 'Atenção',
+        message:
+            'Sem conexão com o servidor. Por favor, aguarde ou chame o suporte.',
+      );
+      return;
+    }
 
     _socketService.enviar(
       SaseMensagem(acao: AcaoSase.chamarProxima, mesa: numeroMesa.value),
