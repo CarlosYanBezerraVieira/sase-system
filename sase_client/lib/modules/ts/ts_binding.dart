@@ -5,6 +5,6 @@ import 'package:sase_client/modules/ts/ts_controller.dart';
 class TsBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<TsController>(() => TsController());
+    Get.put<TsController>(TsController());
   }
 }
