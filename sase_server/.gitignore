@@ -4,3 +4,6 @@
 
 # Arquivos de log JSONL (rotação diária)
 logs/
+
+# FVM Version Cache
+.fvm/
