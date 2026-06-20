@@ -149,6 +149,9 @@ sase_client/build/windows/x64/runner/Release/sase_client.exe
 
 Para distribuir o aplicativo, utilize a pasta `Release`, pois ela contem o `.exe` e os arquivos necessarios para execucao.
 
+O executavel gerado pelo Flutter nao deve ser distribuido sozinho. Ele precisa
+das DLLs e da pasta `data` que ficam em `build/windows/x64/runner/Release`.
+
 ## Protocolo JSON
 
 Todas as mensagens trafegam via TCP em UTF-8, no formato JSON, finalizadas com `\n`.
