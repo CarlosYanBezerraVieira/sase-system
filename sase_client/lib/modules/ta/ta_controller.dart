@@ -1,12 +1,13 @@
 import 'package:get/get.dart';
 import 'package:sase_client/core/enums/sase_enums.dart';
+import 'package:sase_client/core/model/sase_mensagem.dart';
 import 'package:sase_client/core/services/socket_service.dart';
 
 /// Define o estado da tela do Terminal de Atendimento.
 enum EstadoTa {
-  aguardando,   // Tela inicial — esperando o atendente chamar.
-  atendendo,    // Exibe a senha que foi concedida pelo servidor.
-  filaVazia,    // Servidor retornou que não há senhas na fila.
+  aguardando, // Tela inicial — esperando o atendente chamar.
+  atendendo, // Exibe a senha que foi concedida pelo servidor.
+  filaVazia, // Servidor retornou que não há senhas na fila.
 }
 
 /// Controlador do Terminal de Atendimento (TA).
@@ -37,14 +38,11 @@ class TaController extends GetxController {
   /// Assina o stream do SocketService para reagir a eventos do servidor.
   void _escutarMensagens() {
     _socketService.messages.listen((mensagem) {
-      final acaoRaw = mensagem['acao'] as String?;
-      if (acaoRaw == null) return;
-
-      final acao = AcaoSase.fromComando(acaoRaw);
+      final SaseMensagem(:acao, :senha) = mensagem;
+      if (acao == null) return;
 
       switch (acao) {
         case AcaoSase.suaVez:
-          final senha = mensagem['senha'] as String?;
           if (senha != null) {
             senhaAtual.value = senha;
             estado.value = EstadoTa.atendendo;
@@ -65,9 +63,8 @@ class TaController extends GetxController {
   void chamarProxima() {
     if (!_socketService.isConnected.value) return;
 
-    _socketService.enviar({
-      'acao': AcaoSase.chamarProxima.comando,
-      'mesa': numeroMesa.value,
-    });
+    _socketService.enviar(
+      SaseMensagem(acao: AcaoSase.chamarProxima, mesa: numeroMesa.value),
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sase_client/core/enums/sase_enums.dart';
+import 'package:sase_client/core/model/sase_mensagem.dart';
 import 'package:sase_client/core/services/socket_service.dart';
 import 'package:sase_client/core/ui/utils/sase_feedback_utils.dart';
 
@@ -47,11 +48,13 @@ class TsController extends GetxController {
     }
 
     // Envia o payload de nova senha para o servidor
-    _socketService.enviar({
-      'acao': AcaoSase.novaSenha.comando,
-      'senha': senhaGerada,
-      'tipo': tipo.codigo,
-    });
+    _socketService.enviar(
+      SaseMensagem(
+        acao: AcaoSase.novaSenha,
+        senha: senhaGerada,
+        tipo: tipo.codigo,
+      ),
+    );
 
     // Feedback visual de sucesso na tela do TS
     final cor = tipo == TipoSenha.normal ? Colors.blue : Colors.orange;

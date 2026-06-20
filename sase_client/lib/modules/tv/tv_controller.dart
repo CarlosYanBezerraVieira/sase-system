@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:sase_client/core/enums/sase_enums.dart';
+import 'package:sase_client/core/model/sase_mensagem.dart';
 import 'package:sase_client/core/services/socket_service.dart';
 
 class SenhaChamada {
@@ -23,6 +24,12 @@ class TvController extends GetxController {
   final Rx<SenhaChamada?> ultimaChamada = Rx<SenhaChamada?>(null);
   final RxList<SenhaChamada> historico = <SenhaChamada>[].obs;
 
+  bool getIsPrioritariaByIndex(int index) =>
+      historico[index].senha.startsWith("P");
+
+  bool get getIsPrioritariaAtual =>
+      ultimaChamada.value?.senha.startsWith('P') ?? false;
+
   @override
   void onInit() {
     super.onInit();
@@ -36,15 +43,11 @@ class TvController extends GetxController {
 
   void _escutarMensagens() {
     _socketService.messages.listen((mensagem) {
-      final acaoRaw = mensagem['acao'] as String?;
-      if (acaoRaw == null) return;
+      final SaseMensagem(:acao, :mesa, :senha) = mensagem;
+      
+      if (acao == null) return;
 
-      final acao = AcaoSase.fromComando(acaoRaw);
-
-      if (acao == AcaoSase.atualizarPainel) {
-        final senha = mensagem['senha'] as String?;
-        final mesa = mensagem['mesa'] as int?;
-
+      if (mensagem.acao == AcaoSase.atualizarPainel) {
         if (senha != null && mesa != null) {
           _registrarNovaChamada(senha, mesa);
         }

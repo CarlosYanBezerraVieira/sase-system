@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:sase_client/core/constants/app_constants.dart';
 import 'package:sase_client/core/enums/sase_enums.dart';
+import 'package:sase_client/core/model/sase_mensagem.dart';
 
 /// Serviço responsável por gerenciar a conexão TCP nativa com o Servidor SASE.
 ///
@@ -18,8 +19,8 @@ class SocketService extends GetxService {
   final RxBool isConnected = false.obs;
 
   /// Stream que expõe as mensagens recebidas já convertidas em JSON.
-  final _messageStream = StreamController<Map<String, dynamic>>.broadcast();
-  Stream<Map<String, dynamic>> get messages => _messageStream.stream;
+  final _messageStream = StreamController<SaseMensagem>.broadcast();
+  Stream<SaseMensagem> get messages => _messageStream.stream;
 
   /// Estabelece a conexão TCP e realiza o handshake com o servidor.
   Future<void> conectar(TipoCliente tipoCliente) async {
@@ -36,11 +37,10 @@ class SocketService extends GetxService {
       debugPrint('[SOCKET] Conectado ao servidor ${AppConstants.serverHost}:${AppConstants.serverPort}');
 
       // Envia o payload de handshake imediatamente após conectar
-      final handshake = {
+      _enviarJson({
         'acao': AcaoSase.registrar.comando,
         'tipo_cliente': tipoCliente.sigla,
-      };
-      enviar(handshake);
+      });
 
       // Buffer para tratar pacotes TCP quebrados
       String buffer = '';
@@ -77,15 +77,21 @@ class SocketService extends GetxService {
   /// Converte a string JSON e propaga pelo Stream para os ouvintes (Controllers).
   void _processarMensagem(String rawMsg) {
     try {
-      final Map<String, dynamic> msgDecodificada = jsonDecode(rawMsg);
-      _messageStream.add(msgDecodificada);
+      final Map<String, dynamic> msgDecodificada =
+          Map<String, dynamic>.from(jsonDecode(rawMsg) as Map);
+      _messageStream.add(SaseMensagem.fromJson(msgDecodificada));
     } catch (e) {
       debugPrint('[ERRO JSON] Falha ao decodificar mensagem do servidor: $rawMsg');
     }
   }
 
+  /// Converte uma mensagem tipada em JSON e envia via Socket.
+  void enviar(SaseMensagem mensagem) {
+    _enviarJson(mensagem.toJson());
+  }
+
   /// Converte um payload Map em JSON e envia via Socket.
-  void enviar(Map<String, dynamic> payload) {
+  void _enviarJson(Map<String, dynamic> payload) {
     if (_socket != null && isConnected.value) {
       final stringJson = jsonEncode(payload);
       _socket!.writeln(stringJson);
