@@ -15,42 +15,48 @@ class TaView extends GetView<TaController> {
   @override
   Widget build(BuildContext context) {
     final tamanhoTela = MediaQuery.sizeOf(context);
-    return Obx(() {
-      final titulo = 'Guichê N° ${controller.numeroMesa.value}';
 
-      return Scaffold(
-        backgroundColor: Colors.grey[100],
-        appBar: SaseHeader(title: titulo),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(48.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 400),
-                  transitionBuilder: (child, animation) => FadeTransition(
-                    opacity: animation,
-                    child: ScaleTransition(scale: animation, child: child),
-                  ),
-                  child: const TaPainelCentral(),
+    final titulo = 'Guichê N° ${controller.numeroMesa.value}';
+
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
+      appBar: SaseHeader(title: titulo),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(48.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 400),
+                transitionBuilder: (child, animation) => FadeTransition(
+                  opacity: animation,
+                  child: ScaleTransition(scale: animation, child: child),
                 ),
-                const SizedBox(height: 64),
-                SizedBox(
-                  width: tamanhoTela.width * 0.8,
-                  height: tamanhoTela.height * 0.15,
-                  child: SaseButton(
-                    label: 'Chamar Próxima',
-                    icon: Icons.notifications_active,
-                    color: Colors.blue[700]!,
-                    onTap: controller.chamarProxima,
-                  ),
+                child: Obx(() {
+                  return TaPainelCentral(
+                    key: ValueKey('painelCentral'),
+                    estado: controller.estado.value,
+                    senhaAtual: controller.senhaAtual.value,
+                    isPrioritaria: controller.isPrioritaria,
+                  );
+                }),
+              ),
+              const SizedBox(height: 64),
+              SizedBox(
+                width: tamanhoTela.width * 0.8,
+                height: tamanhoTela.height * 0.15,
+                child: SaseButton(
+                  label: 'Chamar Próxima',
+                  icon: Icons.notifications_active,
+                  color: Colors.blue[700]!,
+                  onTap: controller.chamarProxima,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      );
-    });
+      ),
+    );
   }
 }
